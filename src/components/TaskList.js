@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { globalContext } from "../context/GlobalContext";
+import { GlobalContext } from "../context/GlobalContext";
 
 
 const TaskList = () => {
 
-  const {tasks} = useContext(globalContext);
+  const {tasks} = useContext(GlobalContext);
 
 
   return (
