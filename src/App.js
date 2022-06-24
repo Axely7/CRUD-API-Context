@@ -6,8 +6,6 @@ import TaskForm from './components/TaskForm';
 import { ContextProvider } from "./context/ContextProvider";
 
 
-console.log(ContextProvider);
-
 function App() {
   return (
     <div>
@@ -18,6 +16,7 @@ function App() {
             <Routes >
               <Route path='/' element={<TaskList />}/>
               <Route path='/add' element={<TaskForm />}/>
+              <Route path='/edit/:id' element={<TaskForm />}/>
             </Routes>
           </ContextProvider>
         </div>
