@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const TaskList = () => {
 
-  const {tasks, deleteTask} = useContext(GlobalContext);
+  const {tasks, deleteTask, toggleTaskDone} = useContext(GlobalContext);
 
 
   return (
@@ -19,6 +19,8 @@ const TaskList = () => {
             <div>
               <h1 className=''>{task.title}</h1>
               <h6>{ task.id }</h6>
+              <p>{task.description}</p>
+              <button className='bg-purple-600 hover:bg-purple-500 py-1 px-3 mt-2' onClick={() => toggleTaskDone(task.id)}>{ task.done ? 'Undone' : 'done' }</button>
             </div>
             <div>
               <Link to={`/edit/${task.id}`} className='bg-gray-600 hover:bg-gray-500 py-2 px-4 mr-2'>Edit</Link>

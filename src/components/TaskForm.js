@@ -1,14 +1,16 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { GlobalContext } from "../context/GlobalContext";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 const TaskForm = () => {
 
-  const {addTask} = useContext(GlobalContext);
-  const navigate = useNavigate()
+  const {addTask, tasks, updateTask} = useContext(GlobalContext);
+  const navigate = useNavigate();
+  const params = useParams();
 
   const [task, setTask] = useState({
+    id: '',
     title: '',
     description: ''
   })
@@ -19,19 +21,36 @@ const TaskForm = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    addTask(task);
+
+    if(task.id){
+      updateTask(task)
+    } else {
+      addTask(task)
+    }
     navigate('/');
   }
+
+  useEffect(() => {
+
+    const taskFound = tasks.find( task => task.id === params.id )
+    console.log(taskFound);
+    
+    if (taskFound) {
+      setTask(taskFound)
+    } 
+  }, [params.id, tasks])
+  
 
   return (
     <div className='flex justify-center items-center h-3/4'>
       <form className='bg-gray-900 p-10' onSubmit={handleSubmit}>
-        <h2 className='mb-7 text-4xl'>A Task</h2>
+        <h2 className='mb-7 text-4xl'>{task.id ? 'Editing a Task' : 'Creating a Task'}</h2>
         <div className='mb-5'>
           <input 
             type="text" 
             name='title' 
             placeholder='Write a title' 
+            value={task.title}
             onChange={handleChange}
             className='py-3 px-4 focus:outline-none focus:text-gray-100 bg-gray-700 w-full'/>
         </div>
@@ -40,12 +59,13 @@ const TaskForm = () => {
             name='description' 
             rows="2" 
             placeholder='Write a description' 
+            value={task.description}
             onChange={handleChange}
             className='py-3 px-4 focus:outline-none focus:text-gray-100 bg-gray-700 w-full'
             ></textarea>
         </div>
         <button className='bg-green-600 w-full hover:bg-green-500 py-2 px-4 mt-5'>
-          Create Task
+          { task.id ? 'Edit Task' : 'Create Task' }
         </button>
       </form>
     </div>
